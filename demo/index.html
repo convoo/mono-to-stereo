@@ -8,27 +8,36 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-
+    
     <link rel="import" href="../mono-to-stereo.html">
+
+    <link rel="import" href="../../webrtc-stream/webrtc-stream.html">
+
 
     <style is="custom-style" include="demo-pages-shared-styles">
     </style>
   </head>
-  <body>
-
-    <div class="vertical-section-container centered">
-      <h3>Basic mono-to-stereo Demo</h3>
+  <body unresolved>
+    
+    <dom-module id="demo">
+      <template is="dom-bind" id="demo-template">
+        
+        <div class="vertical-section-container centered">
+          <h3>Basic mono-to-stereo Demo</h3>
+        
+            <webrtc-stream stream="{{stream}}" stream-url="{{streamUrl}}"></webrtc-stream>
+            
+            <!--<video src="{{streamUrl}}" autoplay muted></video>-->
+            
+            <mono-to-stereo input="{{stream}}" output-url="{{stereoOutput}}"></mono-to-stereo>
+            
+            <audio src="{{stereoOutput}}" autoplay></audio>
+        </div>
+      </template>
       
-      <dom-module>
-        <template is="dom-bind">
-          <demo-snippet>
-            <template>
-              <mono-to-stereo></mono-to-stereo>
-            </template>
-          </demo-snippet>
-        </template>
-      </dom-module>
-    </div>
+    </dom-module>
+
+    
 
   </body>
 </html>

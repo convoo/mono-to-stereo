@@ -2,22 +2,86 @@
 
 <dom-module id="mono-to-stereo">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
 
   </template>
 
   <script>
+    /**
+     * An element that provides a simple way of generating stereo sound from audio
+     * 
+     * Example:
+     *    <mono-to-stereo></mono-to-stereo>
+     * 
+     * @demo demo/index.html
+     */
     Polymer({
 
       is: 'mono-to-stereo',
 
       properties: {
-        
+        /**
+         * `input` represents the input mono stream
+         */
+        input: {
+          type: Object,
+          notify: true,
+          reflectToAttribute: true
+        },
+        /**
+         * `output` represents the output stereo stream
+         */
+        output: {
+          type: Object,
+          notify: true,
+          reflectToAttribute: true
+        },
+        /**
+         * `outputUrl` represents a url to the output stereo stream
+         */
+        outputUrl: {
+          type: String,
+          notify: true,
+          reflectToAttribute: true
+        }
       },
+      attached: function(){
+        setTimeout(function(){
+          console.log(this.input);
+        
+          var context =  new (window.AudioContext || window.webkitAudioContext)();
+          // var source = context.createMediaStreamSource(this.input);
+          
+          this.output = context.createMediaStreamDestination();
+          
+          // split
+          var leftClone = context.createMediaStreamSource(this.input.clone()),
+          rightClone = context.createMediaStreamSource(this.input.clone());
+          
+          // pan left
+          var panLeft = context.createStereoPanner();
+          panLeft.pan.value = -1;
+          leftClone.connect(panLeft);
+          
+          // delay left by 50 ms
+          var delay = context.createDelay(100);
+          panLeft.connect(delay);
+          
+          // pan right
+          var panRight = context.createStereoPanner();
+          panRight.pan.value = 1;
+          leftClone.connect(panRight);
+          
+          // merge
+          var merger = context.createChannelMerger(2);
+          delay.connect(merger, 0, 0);
+          panRight.connect(merger, 0, 1);
+          
+          merger.connect(this.output);
+          
+          this.outputUrl = window.URL.createObjectURL(this.output.stream);
+        }.bind(this),1000)
+        
+      }
 
     });
   </script>
