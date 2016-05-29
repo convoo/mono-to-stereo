@@ -1,0 +1,25 @@
+{
+  "name": "mono-to-stereo",
+  "main": "mono-to-stereo.html",
+  "version": "0.0.1",
+  "authors": [
+    "Will in China <email.will.in.china@gmail.com>",
+    "Saad Elbeleidy <sbeleidy90@gmail.com>"
+  ],
+  "keywords": [
+    "web-component",
+    "polymer",
+    "audio"
+  ],
+  "license": "MIT",
+  "homepage": "https://convoo.github.io/mono-to-stereo/",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  }
+}
